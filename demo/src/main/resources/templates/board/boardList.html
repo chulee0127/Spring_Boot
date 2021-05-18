@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/layout}">
+	
+<head>
+	<meta charset="UTF-8"/>
+	
+	<script>
+		$(document).ready(function() {
+			selectBoardList();
+		});
+		
+		function selectBoardList(){
+			$.ajax({
+				cache : false,
+				type : "POST",
+				url : "/board/list/get",
+				data : JSON.stringify({flag: "test"}),
+				dataType : "JSON",
+				contentType : "application/json; charset=utf-8",
+				success : function(result) {
+					if(result.resultCode === 0){
+						alert(result.boardList);
+					} else {
+						alert("서버 에러");
+					}
+				},
+				error : function() {
+					alert("서버통신 에러");
+				}
+			});
+		}
+	</script>
+</head>
+
+<div layout:fragment="content">
+	<div class="container">
+		<h1>게시판</h1>
+	</div>
+</div>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/layout}">
+	
+<head>
+	<meta charset="UTF-8"/>
+	
+	<style>
+		#hmm{
+			background-color: lavender;
+		}
+	</style>
+	
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			
+			if("[[${resultCode}]]" === "0"){
+				let userList = [[${userList}]];
+				userList.forEach(function(item){
+					console.log(item.UID);
+			    });
+			} else {
+				alert("관리자에게 문의바랍니다.");
+			}
+			
+			// 로그인 모달
+			$(document).on("click", "#loginBtn", function(){
+				//console.log("DOM :: "+$(this).html());
+				$("#loginModal").modal("show");
+			});
+			
+			// 로그인
+			$(document).on("click", "#loginDo", function(){
+				
+				let objParam = {
+						user_id : $("#userId").val(),
+						user_pw : $("#userPw").val()
+				};
+				
+				$.ajax({
+					cache : false,
+					type : "POST",
+					url : "/signIn",
+					data : JSON.stringify(objParam),
+					dataType : "JSON",
+					contentType : "application/json; charset=utf-8",
+					success : function(result) {
+						if(result.resultCode === 0){
+							location.reload();
+						} else if(result.resultCode === 88) {
+							alert("로그인 실패");
+						} else{
+							alert("서버 에러");
+						}
+					},
+					error : function() {
+						alert("서버통신 에러");
+					}
+				});
+			});
+			
+			// 로그아웃
+			$(document).on("click", "#logoutBtn", function(){
+				
+				$.ajax({
+					cache : false,
+					type : "POST",
+					url : "/signOut",
+					data : JSON.stringify({flag: "signOut"}),
+					dataType : "JSON",
+					contentType : "application/json; charset=utf-8",
+					success : function(result) {
+						if(result.resultCode === 0){
+							location.reload();
+						} else{
+							alert("서버 에러");
+						}
+					},
+					error : function() {
+						alert("서버통신 에러");
+					}
+				});
+			});
+			
+		});
+	</script>
+</head>
+
+<div layout:fragment="content">
+	<div class="container mt-2 mb-2" style="border: 1px solid red;">
+		<!-- <p id="hmm" th:text="${resultCode}"></p> -->
+		<div th:if="${session.userMap eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
+		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.UID}"></span>&nbsp;님</div>
+		<h5 style="text-align: center;">회원현황</h5>
+		<div style="text-align: -webkit-center;">
+			<table class="table table-striped col-3" style="text-align: center;">
+				<thead class="thead-dark">
+					<tr>
+						<th>No</th>
+						<th>ID</th>
+						<th>이름</th>
+					</tr>
+				</thead>
+				<tbody:block th:each="list: ${userList}">
+			        <tr>
+			            <td th:text="${list.UID}"></td>
+			            <td th:text="${list.UID}"></td>
+			            <td th:text="${list.UID}"></td>
+			        </tr>
+			    </tbody:block>
+			</table>
+		</div>
+		<div class="row">
+			<div th:if="${session.userMap eq null}"><button id="loginBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그인</button></div>
+			<div th:if="${session.userMap ne null}"><button id="logoutBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그아웃</button></div>
+			<a href="board/list"><button class="btn btn-sm btn-info mb-3">게시판</button></a>
+		</div>
+	</div>
+	<!-- 로그인 Modal -->
+	<div id="loginModal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">아이디</span>
+						</div>
+						<input type="text" id="userId" class="form-control">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">비밀번호</span>
+						</div>
+						<input type="password" id="userPw" class="form-control">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="loginDo" class="btn btn-primary">로그인</button>
+					<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</html>
