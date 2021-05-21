@@ -121,7 +121,7 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
-    <Engine defaultHost="localhost" name="Catalina">
+    <Engine defaultHost="localhost" name="Catalina" jvmRoute="boot1">
 
       <!--For clustering, please take a look at documentation at:
           /docs/cluster-howto.html  (simple how to)
@@ -129,7 +129,47 @@
       <!--
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/>
       -->
+      <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster" channelSendOptions="8" channelStartOptions="3">
 
+		<Manager className="org.apache.catalina.ha.session.DeltaManager" expireSessionsOnShutdown="false" notifyListenersOnReplication="true" />
+
+		<Channel className="org.apache.catalina.tribes.group.GroupChannel">
+			<Sender className="org.apache.catalina.tribes.transport.ReplicationTransmitter">
+				<Transport
+					className="org.apache.catalina.tribes.transport.nio.PooledParallelSender" />
+			</Sender>
+			<!-- 현재 Was에서 받는 IP 및 Port 를 설정 -->
+			<Receiver className="org.apache.catalina.tribes.transport.nio.NioReceiver"
+				address="localhost"
+				port="4009"
+				autoBind="0"
+				selectorTimeout="5000"
+				maxThreads="6" />
+			<Interceptor className="org.apache.catalina.tribes.group.interceptors.TcpPingInterceptor" staticOnly="true"/>
+			<Interceptor className="org.apache.catalina.tribes.group.interceptors.TcpFailureDetector" />
+			
+			<Interceptor className="org.apache.catalina.tribes.group.interceptors.StaticMembershipInterceptor">
+				<!-- 세션클러스터링 할 WAS IP 및 PORT 설정을 각자 맞게 넣고 설정 -->
+				<!-- uniqueId 의 내용은 맨 끝의 1번 WAS에서는 2로 설정 2번 WAS에서는 1로 설정 -->
+				<Member className="org.apache.catalina.tribes.membership.StaticMember"
+					port="4010"
+					host="127.0.0.1"
+					uniqueId="{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1}" />
+			</Interceptor>
+			
+			<Interceptor className="org.apache.catalina.tribes.group.interceptors.MessageDispatchInterceptor"/>
+		</Channel>
+
+		<Valve className="org.apache.catalina.ha.tcp.ReplicationValve" filter="" />
+		<Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve" />
+<!-- 
+		<Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"
+			tempDir="/tmp/war-temp/" deployDir="/tmp/war-deploy/"
+			watchDir="/tmp/war-listen/" watchEnabled="false" />
+ -->
+		<ClusterListener className="org.apache.catalina.ha.session.ClusterSessionListener" />
+	</Cluster>
+      
       <!-- Use the LockOutRealm to prevent attempts to guess user passwords
            via a brute-force attack -->
       <Realm className="org.apache.catalina.realm.LockOutRealm">
