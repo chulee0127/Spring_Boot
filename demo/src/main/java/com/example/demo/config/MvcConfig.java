@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.example.demo.interceptor.LoggerInterceptor;
 
 @Configuration
-public class MvcConfiguration implements WebMvcConfigurer {
+public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
