@@ -18,7 +18,7 @@
 			if("[[${resultCode}]]" === "0"){
 				let userList = [[${userList}]];
 				userList.forEach(function(item){
-					console.log(item.UID);
+					console.log(item.user_no);
 			    });
 			} else {
 				alert("관리자에게 문의바랍니다.");
@@ -35,7 +35,7 @@
 				
 				let objParam = {
 						user_id : $("#userId").val(),
-						user_pw : $("#userPw").val()
+						user_password : $("#userPw").val()
 				};
 				
 				$.ajax({
@@ -91,7 +91,7 @@
 	<div class="container mt-2 mb-2" style="border: 1px solid red;">
 		<!-- <p id="hmm" th:text="${resultCode}"></p> -->
 		<div th:if="${session.userMap eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
-		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.UID}"></span>&nbsp;님</div>
+		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.user_name}"></span>&nbsp;님</div>
 		<h5 style="text-align: center;">회원현황</h5>
 		<div style="text-align: -webkit-center;">
 			<table class="table table-striped col-3" style="text-align: center;">
@@ -104,9 +104,9 @@
 				</thead>
 				<tbody:block th:each="list: ${userList}">
 			        <tr>
-			            <td th:text="${list.UID}"></td>
-			            <td th:text="${list.UID}"></td>
-			            <td th:text="${list.UID}"></td>
+			            <td th:text="${list.user_no}"></td>
+			            <td th:text="${list.user_id}"></td>
+			            <td th:text="${list.input_date}"></td>
 			        </tr>
 			    </tbody:block>
 			</table>

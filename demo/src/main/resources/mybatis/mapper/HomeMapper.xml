@@ -6,7 +6,7 @@
 	<select id="selectUser" resultType="hashmap">
 		SELECT
 			*
-		FROM TBSI_USR
+		FROM tb_user
 	</select>
 	
 	<select id="signIn" parameterType="hashmap" resultType="hashmap">
@@ -14,9 +14,9 @@
 			user_no,
 			user_id,
 			user_name
-		FROM boot_user
+		FROM tb_user
 		WHERE user_id = #{user_id}
-		AND user_pw = #{user_pw}
+		AND user_password = #{user_password}
 	</select>
 	
 </mapper>
