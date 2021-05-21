@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.config;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Scheduler;

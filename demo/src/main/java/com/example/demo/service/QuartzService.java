@@ -10,7 +10,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.common.QuartzConfig;
+import com.example.demo.config.QuartzConfig;
 import com.example.demo.jobs.Job1;
 
 @Service
