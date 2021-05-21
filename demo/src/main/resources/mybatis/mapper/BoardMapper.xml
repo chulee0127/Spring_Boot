@@ -5,8 +5,14 @@
 
 	<select id="selectBoardList" resultType="hashmap">
 		SELECT
-			*
-		FROM boot_board
+			board_no,
+			user_id,
+			user_name,
+			board_title,
+			board_content,
+			DATE_FORMAT(input_date, '%Y-%m-%d %H:%i:%s') AS input_date,
+			IF(update_date = '0000-00-00 00:00:00', '-', update_date) AS update_date
+		FROM tb_board
 	</select>
 	
 </mapper>

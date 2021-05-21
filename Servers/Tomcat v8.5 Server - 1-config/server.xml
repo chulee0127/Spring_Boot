@@ -154,7 +154,7 @@
 				<Member className="org.apache.catalina.tribes.membership.StaticMember"
 					port="4010"
 					host="127.0.0.1"
-					uniqueId="{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1}" />
+					uniqueId="{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2}" />
 			</Interceptor>
 			
 			<Interceptor className="org.apache.catalina.tribes.group.interceptors.MessageDispatchInterceptor"/>

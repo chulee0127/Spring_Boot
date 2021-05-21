@@ -21,7 +21,24 @@
 				contentType : "application/json; charset=utf-8",
 				success : function(result) {
 					if(result.resultCode === 0){
-						alert(result.boardList);
+						
+						let inserHtml = "";
+						for(let i=0; i<result.boardList.length; i++){
+							let getData = result.boardList[i];
+							
+							inserHtml += "<tr>";
+							inserHtml += "<td>"+getData.board_no+"</td>";
+							inserHtml += "<td>"+getData.user_id+"</td>";
+							inserHtml += "<td>"+getData.user_name+"</td>";
+							inserHtml += "<td>"+getData.board_title+"</td>";
+							inserHtml += "<td>"+getData.board_content+"</td>";
+							inserHtml += "<td>"+getData.input_date+"</td>";
+							inserHtml += "<td>"+getData.update_date+"</td>";
+							inserHtml += "</tr>";
+						}
+						
+						$("#boardTbody").html(inserHtml);
+						
 					} else {
 						alert("서버 에러");
 					}
@@ -37,6 +54,27 @@
 <div layout:fragment="content">
 	<div class="container">
 		<h1>게시판</h1>
+		<div th:if="${session.userMap eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
+		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.user_name}"></span>&nbsp;님</div>
+		<h5 style="text-align: center;">회원현황</h5>
+		<div style="text-align: -webkit-center;">
+			<table class="table table-striped col-8" style="text-align: center; white-space: nowrap;">
+				<thead class="thead-dark">
+					<tr>
+						<th>No</th>
+						<th>ID</th>
+						<th>이름</th>
+						<th>제목</th>
+						<th>내용</th>
+						<th>입력 날짜</th>
+						<th>수정 날짜</th>
+					</tr>
+				</thead>
+				<tbody id="boardTbody">
+				</tbody>
+			</table>
+		</div>
+		<a href="/"><button class="btn btn-sm btn-info mb-3">메인</button></a>
 	</div>
 </div>
 </html>

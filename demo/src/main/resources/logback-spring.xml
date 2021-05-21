@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                        <pattern>[ %d{yyyy-MM-dd HH:mm:ss.SSS} ] [ %thread ] [ %-5level ] [ %logger{36} ] - %msg%n</pattern>
+                </encoder>
+        </appender>
+<!-- 
+        <appender name="FILE"
+                class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>logs/solpay_front.log</file>
+                <encoder
+                        class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+                </encoder>
+                <rollingPolicy
+                        class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        <fileNamePattern>logs/solpay_front-%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                        each file should be at most 10MB, keep 30 days worth of history
+                        <maxHistory>30</maxHistory>
+                        <timeBasedFileNamingAndTriggeringPolicy
+                                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                                <maxFileSize>10MB</maxFileSize>
+                        </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+        </appender>
+ -->
+        <root level="INFO" >
+                <appender-ref ref="STDOUT" />
+                <!-- <appender-ref ref="FILE" /> -->
+        </root>
+
+        <logger name="jdbc" level="OFF" />
+        
+        <logger name="jdbc.sqlonly" level="info" />
+        
+        <logger name="jdbc.sqltiming" level="OFF" additivity="false">
+                <appender-ref ref="STDOUT" />
+                <!-- <appender-ref ref="FILE"/> -->
+        </logger>
+        
+        <logger name="jdbc.audit" level="OFF" />
+        
+        <logger name="jdbc.resultset" level="OFF" />
+        
+        <logger name="jdbc.resultsettable" level="OFF" additivity="false">
+                <appender-ref ref="STDOUT" />
+                <!-- <appender-ref ref="FILE"/> -->
+        </logger>
+        
+        <logger name="jdbc.connection" level="OFF" />
+
+</configuration>

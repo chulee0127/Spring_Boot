@@ -12,7 +12,7 @@ public class ScheduledService {
 	
 	private static Logger logger = LoggerFactory.getLogger(ScheduledService.class);
 
-	@Scheduled(cron = "0/14 * * * * *")
+	//@Scheduled(cron = "0/14 * * * * *")
 	public void alert() {
 		logger.info("현재 시간 : {}", new Date());
 	}

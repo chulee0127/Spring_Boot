@@ -15,7 +15,15 @@ public class BoardService {
 	BoardMapper boardMapper;
 	
 	public ArrayList<HashMap<String, Object>> selectBoardList(){
-		return boardMapper.selectBoardList();
+		
+		ArrayList<HashMap<String, Object>> resultList = boardMapper.selectBoardList();
+		
+//		for(int i=0; i<resultList.size(); i++) {
+//			HashMap<String, Object> getData = resultList.get(i);
+//			System.out.println("게시판 리스트 :: "+getData);
+//		}
+		
+		return resultList;
 	}
 	
 }

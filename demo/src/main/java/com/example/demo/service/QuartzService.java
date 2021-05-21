@@ -27,7 +27,7 @@ public class QuartzService {
 
 		JobDetail job1 = JobBuilder.newJob(Job1.class).build();
 
-		QuartzConfig.scheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
+		//QuartzConfig.scheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
 	}
 	
 }
