@@ -26,12 +26,12 @@ public class BoardController {
 	
 	@GetMapping(value = "/list")
 	public String boardList() {
-		logger.info("[ ::: board/list ::: ]");
 		return "board/boardList";
 	}
 	
 	@PostMapping(value="/list/get")
 	public ModelAndView boardListGet(@RequestBody HashMap<String, Object> params) {
+		logger.info("[ ::: board/list/get ::: ]");
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		

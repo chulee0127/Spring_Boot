@@ -8,10 +8,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
 @EnableScheduling
-public class ScheduledConfig {
+public class ScheduledConfig2 {
 	
 	@Bean
-	public TaskScheduler scheduler() {
+	public TaskScheduler scheduledBean() {
 		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 		scheduler.setPoolSize(10);
 		return scheduler;

@@ -8,9 +8,9 @@ import org.quartz.TriggerKey;
 
 public class QuartzConfig {
 	
-	public static Scheduler scheduler;
+	public static Scheduler quartzScheduler;
 
 	public static Trigger oneSecTrigger = TriggerBuilder.newTrigger().withIdentity(new TriggerKey("job1Key"))
-			.withSchedule(CronScheduleBuilder.cronSchedule("0/9 * * * * ?")).build();
+			.withSchedule(CronScheduleBuilder.cronSchedule("0/11 * * * * ?")).build();
 	
 }

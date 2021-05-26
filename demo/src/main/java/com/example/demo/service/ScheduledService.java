@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScheduledService {
 	
-	private static Logger logger = LoggerFactory.getLogger(ScheduledService.class);
+	Logger logger = LoggerFactory.getLogger(ScheduledService.class);
 
-	//@Scheduled(cron = "0/14 * * * * *")
-	public void alert() {
-		logger.info("현재 시간 : {}", new Date());
+	//@Scheduled(cron = "0/15 * * * * *")
+	public void scheduledFunction() {
+		logger.info("[ 이것은 Scheduled ] 현재 시간 : {}", new Date());
 	}
 	
 }

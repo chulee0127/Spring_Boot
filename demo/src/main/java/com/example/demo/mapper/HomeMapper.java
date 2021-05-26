@@ -5,8 +5,13 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.vo.UserDetailsVO;
+
 @Mapper
 public interface HomeMapper {
+	
+	// Spring Security << findById >>
+	public UserDetailsVO findById(String user_id);
 	
 	// 사용자 목록
 	public ArrayList<HashMap<String, Object>> selectUser();

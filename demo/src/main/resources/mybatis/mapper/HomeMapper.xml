@@ -3,6 +3,15 @@
 
 <mapper namespace="com.example.demo.mapper.HomeMapper">
 
+	<select id="findById" parameterType="string" resultType="com.example.demo.vo.UserDetailsVO">
+		SELECT
+			user_id,
+			user_password,
+			user_auth
+		FROM tb_user
+		WHERE user_id = #{user_id}
+	</select>
+
 	<select id="selectUser" resultType="hashmap">
 		SELECT
 			*

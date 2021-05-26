@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1999/xhtml"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="~{layout/layout}">
 	
@@ -90,39 +91,50 @@
 <div layout:fragment="content">
 	<div class="container mt-2 mb-2" style="border: 1px solid red;">
 		<!-- <p id="hmm" th:text="${resultCode}"></p> -->
-		<div th:if="${session.userMap eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
-		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.user_name}"></span>&nbsp;님</div>
-		<h5 style="text-align: center;">회원현황</h5>
+		<div th:if="${session.user_id eq null}" style="text-align: right;" class="mt-3"><span>비회원</span>&nbsp;님</div>
+		<div th:if="${session.user_id ne null}" style="text-align: right;" class="mt-3"><span th:text="${session.user_id}"></span>&nbsp;님</div>
+		<div>ID : <span sec:authentication="name"></span></div>
+    	<div>소유 권한 : <span sec:authentication="authorities"></span></div>
+    	
 		<div style="text-align: -webkit-center;">
 			<table class="table table-striped col-4" style="text-align: center; white-space: nowrap;">
 				<thead class="thead-dark">
 					<tr>
 						<th>No</th>
 						<th>ID</th>
-						<th>이름</th>
+						<th>등록날짜</th>
 					</tr>
 				</thead>
-				<tbody:block th:each="list: ${userList}">
+				<tbody th:each="list: ${userList}">
 			        <tr>
 			            <td th:text="${list.user_no}"></td>
 			            <td th:text="${list.user_id}"></td>
 			            <td th:text="${list.input_date}"></td>
 			        </tr>
-			    </tbody:block>
+			    </tbody>
 			</table>
 		</div>
 		<div class="row">
-			<div th:if="${session.userMap eq null}"><button id="loginBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그인</button></div>
-			<div th:if="${session.userMap ne null}"><button id="logoutBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그아웃</button></div>
-			<a href="board/list"><button class="btn btn-sm btn-info mb-3">게시판</button></a>
+			<!-- Spring Security 미사용시 로그인 -->
+<!-- 			<div th:if="${session.userMap eq null}"><button id="loginBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그인</button></div>
+			<div th:if="${session.userMap ne null}"><button id="logoutBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그아웃</button></div> -->
+			<a href="board/list"><button class="btn btn-sm btn-info mb-3 ml-3 mr-3">게시판</button></a>
+			<!-- <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a> -->
+			<a sec:authorize="isAnonymous()" th:href="@{/login}" class="mr-3">로그인</a><!-- 익명 -->
+		    <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="mr-3">로그아웃</a><!-- 인증된 사용자 -->
+		    <p sec:authorize="hasAuthority('ROLE_test1')" class="mr-3">hasAuthority('ROLE_test1')</p>
+		    <p sec:authorize="hasAuthority('ROLE_else')" class="mr-3">hasAuthority('ROLE_else')</p>
+		    <p sec:authorize="hasRole('ROLE_test1')" class="mr-3">hasRole('ROLE_test1')</p>
+		    <p sec:authorize="hasRole('ROLE_else')" class="mr-3">hasRole('ROLE_else')</p>
 		</div>
 	</div>
+	
 	<!-- 로그인 Modal -->
 	<div id="loginModal" class="modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
+					<h5 class="modal-title">로그인 Modal</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -148,5 +160,6 @@
 			</div>
 		</div>
 	</div>
+	<!-- 로그인 Modal 끝 -->
 </div>
 </html>

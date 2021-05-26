@@ -14,8 +14,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		
 		// null이 아니고 ajax 요청도 아닐 때
-		if(request.getSession().getAttribute("userMap") != null && !"XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-			System.out.println("[ 로그인중..! ] "+request.getRequestURI());
+		if(request.getSession().getAttribute("user_id") != null && !"XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+			System.out.println("[ Interceptor 로그인중..! ] "+request.getRequestURI());
 		}
 		
 		return true;

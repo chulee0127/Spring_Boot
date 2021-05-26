@@ -5,6 +5,8 @@
 	
 <head>
 	<meta charset="UTF-8"/>
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	
 	<script>
 		$(document).ready(function() {
@@ -12,6 +14,12 @@
 		});
 		
 		function selectBoardList(){
+			
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let token = $("meta[name='_csrf']").attr("content"); 
+			
+			console.log(header+" :: "+token);
+			
 			$.ajax({
 				cache : false,
 				type : "POST",
@@ -19,6 +27,9 @@
 				data : JSON.stringify({flag: "test"}),
 				dataType : "JSON",
 				contentType : "application/json; charset=utf-8",
+				beforeSend : function(xhr) { // 데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+					xhr.setRequestHeader(header, token);
+				},
 				success : function(result) {
 					if(result.resultCode === 0){
 						
@@ -54,9 +65,9 @@
 <div layout:fragment="content">
 	<div class="container">
 		<h1>게시판</h1>
-		<div th:if="${session.userMap eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
-		<div th:if="${session.userMap ne null}" style="text-align: right;"><span th:text="${session.userMap.user_name}"></span>&nbsp;님</div>
-		<h5 style="text-align: center;">회원현황</h5>
+		<div th:if="${session.user_id eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
+		<div th:if="${session.user_id ne null}" style="text-align: right;"><span th:text="${session.user_id}"></span>&nbsp;님</div>
+		
 		<div style="text-align: -webkit-center;">
 			<table class="table table-striped col-8" style="text-align: center; white-space: nowrap;">
 				<thead class="thead-dark">
@@ -74,7 +85,8 @@
 				</tbody>
 			</table>
 		</div>
-		<a href="/"><button class="btn btn-sm btn-info mb-3">메인</button></a>
+		<a href="/"><button class="btn btn-md btn-info mb-3">메인</button></a>
+		<a href="/logout"><button class="btn btn-md btn-warning mb-3">로그아웃</button></a>
 	</div>
 </div>
 </html>

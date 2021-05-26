@@ -17,17 +17,17 @@ import com.example.demo.jobs.Job1;
 public class QuartzService {
 	
 	private SchedulerFactory schedulerFactory;
-
+	
 	@PostConstruct
 	public void start() throws SchedulerException {
 
 		schedulerFactory = new StdSchedulerFactory();
-		QuartzConfig.scheduler = schedulerFactory.getScheduler();
-		QuartzConfig.scheduler.start();
+		QuartzConfig.quartzScheduler = schedulerFactory.getScheduler();
+		QuartzConfig.quartzScheduler.start();
 
 		JobDetail job1 = JobBuilder.newJob(Job1.class).build();
 
-		//QuartzConfig.scheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
+		//QuartzConfig.quartzScheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
 	}
 	
 }
