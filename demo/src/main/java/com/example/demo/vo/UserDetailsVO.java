@@ -1,5 +1,7 @@
 package com.example.demo.vo;
 
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -7,12 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserDetailsVO implements UserDetails {
+public class UserDetailsVO implements UserDetails, Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L; // 이건 뭘까
+	private static final long serialVersionUID = 1L;
 
 	private String user_id;
 	
@@ -27,7 +26,7 @@ public class UserDetailsVO implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		System.out.println("컬럼 :: "+this.user_auth);
+		//System.out.println("컬럼 :: "+this.user_auth);
 		
 		String [] authorityArray = this.user_auth.split(",");
 		

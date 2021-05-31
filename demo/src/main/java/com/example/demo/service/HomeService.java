@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -52,7 +57,34 @@ public class HomeService implements UserDetailsService {
 			authorities = (ArrayList<GrantedAuthority>) userDetailsVO.getAuthorities();
 			System.out.println("권한 ::: "+userDetailsVO.getAuthorities());
 		}
-		
+		/* 직렬화 테스트 */
+		byte[] serializedMember = null;
+        String serializedMemberStr = "";
+        
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+                oos.writeObject(userDetailsVO);
+                serializedMember = baos.toByteArray();
+                serializedMemberStr = Base64.getEncoder().encodeToString(serializedMember);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("직렬화 문자열 :: "+serializedMemberStr);
+        /* 직렬화 테스트 끝 */
+        /* 역직렬화 테스트 */
+        byte[] deSerializedMember = Base64.getDecoder().decode("rO0ABXNyACFjb20uZXhhbXBsZS5kZW1vLnZvLlVzZXJEZXRhaWxzVk8AAAAAAAAAAQIABEwABHRlc3R0ABJMamF2YS9sYW5nL1N0cmluZztMAAl1c2VyX2F1dGhxAH4AAUwAB3VzZXJfaWRxAH4AAUwADXVzZXJfcGFzc3dvcmRxAH4AAXhwcHQAFVJPTEVfYWRtaW4sUk9MRV90ZXN0MXQABXRlc3QxdAAGdGVzdDFe");
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(deSerializedMember)) {
+            try (ObjectInputStream ois = new ObjectInputStream(bais)) {
+                Object o = ois.readObject();
+                UserDetailsVO o1 = (UserDetailsVO) o;
+                System.out.println("역직렬화 문자열 :: "+o1+o1.getUsername());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /* 역직렬화 테스트 끝*/
+        
 		//System.out.println("여기서 리턴해서 어디로 가냐고.. "+userDetailsVO.getUsername()+" :: "+userDetailsVO.getAuthorities());
 		// UserDetails implements 한 VO 로
 		return new User(userName, encryptPassword, authorities);

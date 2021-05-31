@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.and()
 				.formLogin()
 				.loginPage("/login") // 로그인 페이지 링크
+				.usernameParameter("user_id") // 기본은 username
+				.passwordParameter("user_password") // 기본은 password
 				.successHandler(authHandler)
 				.failureHandler(authHandler)
 				//..defaultSuccessUrl("/") // 로그인 성공 후 리다이렉트 주소
