@@ -6,6 +6,8 @@
 	
 <head>
 	<meta charset="UTF-8"/>
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	
 	<style>
 		#hmm{
@@ -24,7 +26,7 @@
 			} else {
 				alert("관리자에게 문의바랍니다.");
 			}
-			
+			/* Ajax 로그인 */
 			// 로그인 모달
 			$(document).on("click", "#loginBtn", function(){
 				//console.log("DOM :: "+$(this).html());
@@ -83,8 +85,40 @@
 					}
 				});
 			});
-			
+			/* Ajax 로그인 끝 */
 		});
+		/* 크롤링 */
+		function crawling(){
+			
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let token = $("meta[name='_csrf']").attr("content");
+			
+			$.ajax({
+				cache : false,
+				type : "POST",
+				url : "/crawling.do",
+				data : JSON.stringify({flag: "crawling"}),
+				dataType : "JSON",
+				contentType : "application/json; charset=utf-8",
+				beforeSend : function(xhr) { // 데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					if(result.resultCode === 0){
+						console.log("------------------------------------------ html");
+						console.log(result.htmlArray[0]);
+						console.log("------------------------------------------ text");
+						console.log(result.htmlArray[1]);
+					} else{
+						alert("서버 에러");
+					}
+				},
+				error : function() {
+					alert("서버통신 에러");
+				}
+			});
+		}
+		/* 크롤링 끝 */
 	</script>
 </head>
 
@@ -126,6 +160,9 @@
 		    <p sec:authorize="hasAuthority('ROLE_else')" class="mr-3">hasAuthority('ROLE_else')</p>
 		    <p sec:authorize="hasRole('ROLE_test1')" class="mr-3">hasRole('ROLE_test1')</p>
 		    <p sec:authorize="hasRole('ROLE_else')" class="mr-3">hasRole('ROLE_else')</p>
+		</div>
+		<div>
+			<button class="btn btn-md" onclick="crawling();">Crawling ㄱㄱ</button>
 		</div>
 	</div>
 	
