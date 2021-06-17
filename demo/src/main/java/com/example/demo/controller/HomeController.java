@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.service.HomeService;
+import com.example.demo.service.MailComponent;
 
 import com.google.gson.JsonObject;
 
@@ -24,7 +25,10 @@ public class HomeController {
 
 	@Autowired
 	HomeService homeService;
-
+	
+	@Autowired
+	MailComponent mailComponent;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView indexPage(Authentication authentication, HttpSession session) {
 		
@@ -50,19 +54,43 @@ public class HomeController {
 		return mav;
 	}
 	
-	// ·Î±×ÀÎ ÆäÀÌÁö
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
 	
-	// ·Î±×ÀÎ ½ÇÆĞ ÆäÀÌÁö
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/loginFail", method = RequestMethod.GET)
 	public String loginFail() {
 		return "loginFail";
 	}
 	
-	/* ********** Ajax ·Î±×ÀÎ ********** */
+	// ì´ë©”ì¼ ì „ì†¡
+	@RequestMapping(value = "/sendEmail.do", method = RequestMethod.POST)
+	public ModelAndView sendEmail(@RequestBody HashMap<String, Object> params) {
+		
+		System.out.println("RequestBody í…ŒìŠ¤íŠ¸ :: "+params);
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+
+		boolean resultBoolean = false;
+
+		try {
+			
+			mailComponent.sendSimpleMessage("jungchul0127@naver.com", "í…ŒìŠ¤íŠ¸ ì œëª©", "í…ŒìŠ¤íŠ¸ ë‚´ìš©");
+			resultBoolean = true;
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			mav.addObject("resultBoolean", resultBoolean);
+		}
+
+		return mav;
+	}
+
+	/* ********** Ajax ï¿½Î±ï¿½ï¿½ï¿½ ********** */
 	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
 	public @ResponseBody String signIn(@RequestBody HashMap<String, Object> params, HttpSession session) {
 		
@@ -107,5 +135,5 @@ public class HomeController {
 
 		return jsonObj.toString();
 	}
-	/* ********** Ajax ·Î±×ÀÎ ³¡ ********** */
+	/* ********** Ajax ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ********** */
 }

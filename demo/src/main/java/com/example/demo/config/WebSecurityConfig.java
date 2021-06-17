@@ -26,30 +26,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	HomeService homeService;
 
 	@Override
-	public void configure(WebSecurity web) { // ÀÎÁõ ¹«½Ã
+	public void configure(WebSecurity web) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/login", "/loginFail").permitAll() // ´©±¸³ª Á¢±Ù Çã¿ë
-				// ±ÇÇÑÀÌ "ROLE_"·Î ½ÃÀÛµÇÁö ¾Ê±â ¶§¹®¿¡ hasRole()ÀÌ Àû¿ëµÇÁö ¾Ê½À´Ï´Ù. ±ÇÇÑÀÌÀÖ´Â °æ¿ì (¿¹: "ROLE_USER") hasRole("USER")´Â hasAuthority("ROLE_USER")¿Í µ¿ÀÏ
+				.antMatchers("/", "/login", "/loginFail", "/crawling.do", "/sendEmail.do").permitAll() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "ROLE_"ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ hasRole()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½: "ROLE_USER") hasRole("USER")ï¿½ï¿½ hasAuthority("ROLE_USER")ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				.antMatchers("/board/**").hasAnyRole("test1", "else") // .hasRole("test1") .hasAuthority("ROLE_test1")
-				.anyRequest().authenticated() // ³ª¸ÓÁö ¿äÃ»µéÀº ±ÇÇÑÀÇ Á¾·ù¿¡ »ó°ü ¾øÀÌ ±ÇÇÑÀÌ ÀÖ¾î¾ß Á¢±Ù °¡´É
+				.anyRequest().authenticated() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				.and()
 				.formLogin()
-				.loginPage("/login") // ·Î±×ÀÎ ÆäÀÌÁö ¸µÅ©
-				.usernameParameter("user_id") // ±âº»Àº username
-				.passwordParameter("user_password") // ±âº»Àº password
+				.loginPage("/login") // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©
+				.usernameParameter("user_id") // ï¿½âº»ï¿½ï¿½ username
+				.passwordParameter("user_password") // ï¿½âº»ï¿½ï¿½ password
 				.successHandler(authHandler)
 				.failureHandler(authHandler)
-				//..defaultSuccessUrl("/") // ·Î±×ÀÎ ¼º°ø ÈÄ ¸®´ÙÀÌ·ºÆ® ÁÖ¼Ò
+				//..defaultSuccessUrl("/") // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ö¼ï¿½
 				.and()
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/") // ·Î±×¾Æ¿ô ¼º°ø½Ã ¸®´ÙÀÌ·ºÆ® ÁÖ¼Ò
-				.invalidateHttpSession(true) // ¼¼¼Ç ³¯¸®±â
+				.logoutSuccessUrl("/") // ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ö¼ï¿½
+				.invalidateHttpSession(true) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		;
 	}
 

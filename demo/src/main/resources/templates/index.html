@@ -119,6 +119,30 @@
 			});
 		}
 		/* 크롤링 끝 */
+		/* 이메일 전송 */
+		function sendEmail(){
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let token = $("meta[name='_csrf']").attr("content");
+			
+			$.ajax({
+				cache : false,
+				type : "POST",
+				url : "/sendEmail.do",
+				data : JSON.stringify({flag: "email"}),
+				dataType : "JSON",
+				contentType : "application/json; charset=utf-8",
+				beforeSend : function(xhr) { // 데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					alert(result.resultBoolean);
+				},
+				error : function() {
+					alert("서버통신 에러");
+				}
+			});
+		}
+		/* 이메일 전송 끝 */
 	</script>
 </head>
 
@@ -161,8 +185,11 @@
 		    <p sec:authorize="hasRole('ROLE_test1')" class="mr-3">hasRole('ROLE_test1')</p>
 		    <p sec:authorize="hasRole('ROLE_else')" class="mr-3">hasRole('ROLE_else')</p>
 		</div>
-		<div>
-			<button class="btn btn-md" onclick="crawling();">Crawling ㄱㄱ</button>
+		<div class="mb-3">
+			<button class="btn btn-md btn-outline-secondary" onclick="crawling();">Crawling ㄱㄱ</button>
+		</div >
+		<div class="mb-3">
+			<button class="btn btn-md btn-outline-warning" onclick="sendEmail();">이메일 전송</button>
 		</div>
 	</div>
 	
