@@ -39,13 +39,17 @@ public class MailComponent {
 		System.out.println("userName :: " + mailProperties.getUsername());
 		System.out.println("password :: " + mailProperties.getPassword());
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		// message.setFrom("who");
-		message.setTo(to);
-		message.setSubject(subject);
-		message.setText(text);
+		try {
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom(mailProperties.getUsername()); // gmail은 굳이 안써도 됨...
+			message.setTo(to);
+			message.setSubject(subject);
+			message.setText(text);
 
-		emailSender.send(message);
+			emailSender.send(message);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	// 파일 첨부
@@ -56,13 +60,13 @@ public class MailComponent {
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
 //		helper.setFrom(new InternetAddress(mailProperties.getUsername(), "fromName", "UTF-8"));
-		helper.setFrom(mailProperties.getUsername(), "한글도 되나");
+		helper.setFrom(mailProperties.getUsername(), "누구로부터");
 		helper.setTo(to);
 		helper.setSubject(subject);
 		helper.setText(text);
 
 		FileSystemResource file = new FileSystemResource(new File(pathToAttachment));
-		helper.addAttachment("google_otp_capture.jpeg", file);
+		helper.addAttachment(file.getFilename(), file);
 
 		emailSender.send(message);
 	}
@@ -78,12 +82,12 @@ public class MailComponent {
 				final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
 				message.setTo(to);
-				message.setFrom(mailProperties.getUsername(), "누구로 부터");
+				message.setFrom(mailProperties.getUsername(), "누구로부터");
 				message.setSubject(subject);
 				message.setText(text, true); // true : html 형식 사용
 				
 				// HTML tag 안에 img
-				FileSystemResource htmlImgFile1 = new FileSystemResource(new File("C:/Users/A/Desktop/btn_play.png"));
+				FileSystemResource htmlImgFile1 = new FileSystemResource(new File("C:/Users/A/Desktop/내 문서/개발환경.png"));
 				message.addInline("image1", htmlImgFile1);
 				
 				// 파일 첨부

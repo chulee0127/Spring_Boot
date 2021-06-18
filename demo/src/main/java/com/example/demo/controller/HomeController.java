@@ -78,15 +78,15 @@ public class HomeController {
 
 		try {
 			
-			String toUser = "";
-			
+			String toUser = null;
+			String mailTitle= "테스트 제목";
 			String htmlContent = "<h3 style=\"margin-bottom: 10px;\">제목</h3>";
 			htmlContent += "<p style=\"color: green; margin-bottom: 10px;\">내용</p>";
-			htmlContent += "<img src=\"cid:image1\" width=\"20px\" height=\"20px\">";
+			htmlContent += "<img src=\"cid:image1\" width=\"100px\" height=\"100px\">";
 			
-//			mailComponent.sendSimpleMessage(toUser, "테스트 제목", "<p style=\"color: green;\">테스트 내용</p>");
-//			mailComponent.sendMessageWithAttachment(toUser, "테스트 제목", "<p style=\"color: green;\">테스트 내용</p>", "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
-			mailComponent.sendEmailToHtmlForm(toUser, "테스트 제목", htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
+			mailComponent.sendSimpleMessage(toUser, mailTitle, htmlContent);
+//			mailComponent.sendMessageWithAttachment(toUser, mailTitle, htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
+//			mailComponent.sendEmailToHtmlForm(toUser, mailTitle, htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
 			resultBoolean = true;
 			
 		} catch (Exception ex) {
