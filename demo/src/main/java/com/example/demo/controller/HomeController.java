@@ -54,13 +54,13 @@ public class HomeController {
 		return mav;
 	}
 	
-	// �α��� ������
+	// 로그인 페이지
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
 	
-	// �α��� ���� ������
+	// 로그인 실패 페이지
 	@RequestMapping(value = "/loginFail", method = RequestMethod.GET)
 	public String loginFail() {
 		return "loginFail";
@@ -78,7 +78,13 @@ public class HomeController {
 
 		try {
 			
-			mailComponent.sendSimpleMessage("jungchul0127@naver.com", "테스트 제목", "테스트 내용");
+			String htmlContent = "<h3 style=\"margin-bottom: 10px;\">제목</h3>";
+			htmlContent += "<p style=\"color: green; margin-bottom: 10px;\">내용</p>";
+			htmlContent += "<img src=\"cid:image1\" width=\"20px\" height=\"20px\">";
+			
+//			mailComponent.sendSimpleMessage("jungchul0127@naver.com", "테스트 제목", "<p style=\"color: green;\">테스트 내용</p>");
+//			mailComponent.sendMessageWithAttachment("jungchul0127@naver.com", "테스트 제목", "<p style=\"color: green;\">테스트 내용</p>", "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
+			mailComponent.sendEmailToHtmlForm("jungchul0127@naver.com", "테스트 제목", htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
 			resultBoolean = true;
 			
 		} catch (Exception ex) {
@@ -90,7 +96,7 @@ public class HomeController {
 		return mav;
 	}
 
-	/* ********** Ajax �α��� ********** */
+	/* ********** Ajax 로그인 ********** */
 	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
 	public @ResponseBody String signIn(@RequestBody HashMap<String, Object> params, HttpSession session) {
 		
@@ -135,5 +141,6 @@ public class HomeController {
 
 		return jsonObj.toString();
 	}
-	/* ********** Ajax �α��� �� ********** */
+	/* ********** Ajax 로그인 끝 ********** */
+	
 }

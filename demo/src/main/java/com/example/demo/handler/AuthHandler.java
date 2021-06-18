@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 public class AuthHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
-	// ·Î±×ÀÎ ¼º°ø
+	// ë¡œê·¸ì¸ ì„±ê³µ
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -24,21 +24,21 @@ public class AuthHandler implements AuthenticationSuccessHandler, Authentication
 		HttpSession session = request.getSession();
 		session.setAttribute("user_id", authentication.getName());
 
-		System.out.println("·Î±×ÀÎ ¼º°ø Handler :: " + session.getAttribute("user_id"));
-		System.out.println("·Î±×ÀÎ ¼º°ø Handler :: " + authentication.getAuthorities());
+		System.out.println("ë¡œê·¸ì¸ ì„±ê³µ Handler :: " + session.getAttribute("user_id"));
+		System.out.println("ë¡œê·¸ì¸ ì„±ê³µ Handler :: " + authentication.getAuthorities());
 
 		response.sendRedirect("/");
 	}
 
-	// ·Î±×ÀÎ ½ÇÆĞ
+	// ë¡œê·¸ì¸ ì‹¤íŒ¨
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println("·Î±×ÀÎ ½ÇÆĞ Handler :: " + username);
-		System.out.println("·Î±×ÀÎ ½ÇÆĞ Handler :: " + password);
+		System.out.println("ë¡œê·¸ì¸ ì‹¤íŒ¨ Handler :: " + username);
+		System.out.println("ë¡œê·¸ì¸ ì‹¤íŒ¨ Handler :: " + password);
 
 		response.sendRedirect("/loginFail");
 	}

@@ -26,30 +26,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	HomeService homeService;
 
 	@Override
-	public void configure(WebSecurity web) { // ���� ����
+	public void configure(WebSecurity web) { // 인증 무시
 		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/login", "/loginFail", "/crawling.do", "/sendEmail.do").permitAll() // ������ ���� ���
-				// ������ "ROLE_"�� ���۵��� �ʱ� ������ hasRole()�� ������� �ʽ��ϴ�. �������ִ� ��� (��: "ROLE_USER") hasRole("USER")�� hasAuthority("ROLE_USER")�� ����
+				.antMatchers("/", "/login", "/loginFail", "/crawling.do", "/sendEmail.do").permitAll() // 누구나 접근 허용
+				// 권한이 "ROLE_"로 시작되지 않기 때문에 hasRole()이 적용되지 않습니다. 권한이있는 경우 (예: "ROLE_USER") hasRole("USER")는 hasAuthority("ROLE_USER")와 동일
 				.antMatchers("/board/**").hasAnyRole("test1", "else") // .hasRole("test1") .hasAuthority("ROLE_test1")
-				.anyRequest().authenticated() // ������ ��û���� ������ ������ ��� ���� ������ �־�� ���� ����
+				.anyRequest().authenticated() // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근 가능
 				.and()
 				.formLogin()
-				.loginPage("/login") // �α��� ������ ��ũ
-				.usernameParameter("user_id") // �⺻�� username
-				.passwordParameter("user_password") // �⺻�� password
+				.loginPage("/login") // 로그인 페이지 링크
+				.usernameParameter("user_id") // 기본은 username
+				.passwordParameter("user_password") // 기본은 password
 				.successHandler(authHandler)
 				.failureHandler(authHandler)
-				//..defaultSuccessUrl("/") // �α��� ���� �� �����̷�Ʈ �ּ�
+				//.defaultSuccessUrl("/") // 로그인 성공 후 리다이렉트 주소 -> 현재는 authHandler에서 설정
 				.and()
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/") // �α׾ƿ� ������ �����̷�Ʈ �ּ�
-				.invalidateHttpSession(true) // ���� ������
+				.logoutSuccessUrl("/") // 로그아웃 성공시 리다이렉트 주소
+				.invalidateHttpSession(true) // 세션 날리기
 		;
 	}
 

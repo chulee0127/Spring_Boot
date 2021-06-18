@@ -13,10 +13,10 @@ public interface HomeMapper {
 	// Spring Security << findById >>
 	public UserDetailsVO findById(String user_id);
 	
-	// »ç¿ëÀÚ ¸ñ·Ï
+	// ì‚¬ìš©ì ëª©ë¡
 	public ArrayList<HashMap<String, Object>> selectUser();
 	
-	// ·Î±×ÀÎ
+	// ë¡œê·¸ì¸
 	public HashMap<String, Object> signIn(HashMap<String, Object> params);
 	
 }

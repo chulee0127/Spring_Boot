@@ -13,9 +13,9 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		// nullÀÌ ¾Æ´Ï°í ajax ¿äÃ»µµ ¾Æ´Ò ¶§
+		// nullì´ ì•„ë‹ˆê³  ajax ìš”ì²­ë„ ì•„ë‹ ë•Œ
 		if(request.getSession().getAttribute("user_id") != null && !"XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-			System.out.println("[ Interceptor ·Î±×ÀÎÁß..! ] "+request.getRequestURI());
+			System.out.println("[ Interceptor ë¡œê·¸ì¸ì¤‘..! ] "+request.getRequestURI());
 		}
 		
 		return true;

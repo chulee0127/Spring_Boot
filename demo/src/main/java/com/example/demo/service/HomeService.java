@@ -32,16 +32,16 @@ public class HomeService implements UserDetailsService {
 	HomeMapper homeMapper;
 
 	/**
-	 * Spring Security ÇÊ¼ö ¸Ş¼Òµå ±¸Çö
+	 * Spring Security í•„ìˆ˜ ë©”ì†Œë“œ êµ¬í˜„
 	 *
 	 * @param ID
 	 * @return UserDetails
-	 * @throws UsernameNotFoundException À¯Àú°¡ ¾øÀ» ¶§ ¿¹¿Ü ¹ß»ı
+	 * @throws UsernameNotFoundException ìœ ì €ê°€ ì—†ì„ ë•Œ ì˜ˆì™¸ ë°œìƒ
 	 */
-	@Override // ±âº»ÀûÀÎ ¹İÈ¯ Å¸ÀÔÀº UserDetails, UserDetails¸¦ »ó¼Ó¹ŞÀº UserInfo·Î ¹İÈ¯ Å¸ÀÔ ÁöÁ¤ (ÀÚµ¿À¸·Î ´Ù¿î Ä³½ºÆÃµÊ)
-	public UserDetails loadUserByUsername(String user_id) throws UsernameNotFoundException { // ½ÃÅ¥¸®Æ¼¿¡¼­ ÁöÁ¤ÇÑ ¼­ºñ½ºÀÌ±â ¶§¹®¿¡ ÀÌ ¸Ş¼Òµå¸¦ ÇÊ¼ö·Î ±¸Çö
+	@Override // ê¸°ë³¸ì ì¸ ë°˜í™˜ íƒ€ì…ì€ UserDetails, UserDetailsë¥¼ ìƒì†ë°›ì€ UserInfoë¡œ ë°˜í™˜ íƒ€ì… ì§€ì • (ìë™ìœ¼ë¡œ ë‹¤ìš´ ìºìŠ¤íŒ…ë¨)
+	public UserDetails loadUserByUsername(String user_id) throws UsernameNotFoundException { // ì‹œíë¦¬í‹°ì—ì„œ ì§€ì •í•œ ì„œë¹„ìŠ¤ì´ê¸° ë•Œë¬¸ì— ì´ ë©”ì†Œë“œë¥¼ í•„ìˆ˜ë¡œ êµ¬í˜„
 		
-		UserDetailsVO userDetailsVO = homeRepository.findById(user_id); // ID È®ÀÎ
+		UserDetailsVO userDetailsVO = homeRepository.findById(user_id); // ID í™•ì¸
 		
 		String userName = "";
 		String encryptPassword = "";
@@ -52,12 +52,12 @@ public class HomeService implements UserDetailsService {
 			
 			BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
 			encryptPassword = bcryptPasswordEncoder.encode(userDetailsVO.getPassword());
-			System.out.println("ºñ¹Ğ¹øÈ£ ¾ÏÈ£È­ :: "+userDetailsVO.getPassword()+" :: "+encryptPassword);
+			System.out.println("ë¹„ë°€ë²ˆí˜¸ ì•”í˜¸í™” :: "+userDetailsVO.getPassword()+" :: "+encryptPassword);
 			
 			authorities = (ArrayList<GrantedAuthority>) userDetailsVO.getAuthorities();
-			System.out.println("±ÇÇÑ ::: "+userDetailsVO.getAuthorities());
+			System.out.println("ê¶Œí•œ ::: "+userDetailsVO.getAuthorities());
 		}
-		/* Á÷·ÄÈ­ Å×½ºÆ® */
+		/* ì§ë ¬í™” í…ŒìŠ¤íŠ¸ */
 		byte[] serializedMember = null;
         String serializedMemberStr = "";
         
@@ -70,23 +70,23 @@ public class HomeService implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Á÷·ÄÈ­ ¹®ÀÚ¿­ :: "+serializedMemberStr);
-        /* Á÷·ÄÈ­ Å×½ºÆ® ³¡ */
-        /* ¿ªÁ÷·ÄÈ­ Å×½ºÆ® */
+        System.out.println("ì§ë ¬í™” ë¬¸ìì—´ :: "+serializedMemberStr);
+        /* ì§ë ¬í™” í…ŒìŠ¤íŠ¸ ë */
+        /* ì—­ì§ë ¬í™” í…ŒìŠ¤íŠ¸ */
         byte[] deSerializedMember = Base64.getDecoder().decode("rO0ABXNyACFjb20uZXhhbXBsZS5kZW1vLnZvLlVzZXJEZXRhaWxzVk8AAAAAAAAAAQIABEwABHRlc3R0ABJMamF2YS9sYW5nL1N0cmluZztMAAl1c2VyX2F1dGhxAH4AAUwAB3VzZXJfaWRxAH4AAUwADXVzZXJfcGFzc3dvcmRxAH4AAXhwcHQAFVJPTEVfYWRtaW4sUk9MRV90ZXN0MXQABXRlc3QxdAAGdGVzdDFe");
         try (ByteArrayInputStream bais = new ByteArrayInputStream(deSerializedMember)) {
             try (ObjectInputStream ois = new ObjectInputStream(bais)) {
                 Object o = ois.readObject();
                 UserDetailsVO o1 = (UserDetailsVO) o;
-                System.out.println("¿ªÁ÷·ÄÈ­ ¹®ÀÚ¿­ :: "+o1+o1.getUsername());
+                System.out.println("ì—­ì§ë ¬í™” ë¬¸ìì—´ :: "+o1+o1.getUsername());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /* ¿ªÁ÷·ÄÈ­ Å×½ºÆ® ³¡*/
+        /* ì—­ì§ë ¬í™” í…ŒìŠ¤íŠ¸ ë*/
         
-		//System.out.println("¿©±â¼­ ¸®ÅÏÇØ¼­ ¾îµğ·Î °¡³Ä°í.. "+userDetailsVO.getUsername()+" :: "+userDetailsVO.getAuthorities());
-		// UserDetails implements ÇÑ VO ·Î
+        //System.out.println("ì—¬ê¸°ì„œ ë¦¬í„´í•´ì„œ ì–´ë””ë¡œ ê°€ëƒê³ .. "+userDetailsVO.getUsername()+" :: "+userDetailsVO.getAuthorities());
+      	// UserDetails implements í•œ VO ë¡œ
 		return new User(userName, encryptPassword, authorities);
 	}
 

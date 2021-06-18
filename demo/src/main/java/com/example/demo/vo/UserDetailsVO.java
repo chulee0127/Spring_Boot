@@ -26,7 +26,7 @@ public class UserDetailsVO implements UserDetails, Serializable {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		//System.out.println("ÄÃ·³ :: "+this.user_auth);
+		//System.out.println("ì»¬ëŸ¼ :: "+this.user_auth);
 		
 		String [] authorityArray = this.user_auth.split(",");
 		
@@ -37,39 +37,39 @@ public class UserDetailsVO implements UserDetails, Serializable {
         
 		return authorities;
 	}
-	
-	// ºñ¹Ğ¹øÈ£
+
+	// ë¹„ë°€ë²ˆí˜¸
 	@Override
 	public String getPassword() {
 		return this.user_password;
 	}
-	
+
 	// Primary key
 	@Override
 	public String getUsername() {
 		return this.user_id;
 	}
-	
-	/* ********** ÄÃ·³À¸·Î ¸¸µé¾î¼­ °ü¸® *********** */
-	// °èÁ¤ ¸¸·á ¿©ºÎ
+
+	/* ********** ì»¬ëŸ¼ìœ¼ë¡œ ë§Œë“¤ì–´ì„œ ê´€ë¦¬ *********** */
+	// ê³„ì • ë§Œë£Œ ì—¬ë¶€
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-	
-	// °èÁ¤ Àá±è ¿©ºÎ
+
+	// ê³„ì • ì ê¹€ ì—¬ë¶€
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-	
-	// ºñ¹Ğ¹øÈ£ ¿Ï·á ¿©ºÎ
+
+	// ë¹„ë°€ë²ˆí˜¸ ì™„ë£Œ ì—¬ë¶€
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-	
-	// »ç¿ëÀÚ È°¼ºÈ­ ¿©ºÎ
+
+	// ì‚¬ìš©ì í™œì„±í™” ì—¬ë¶€
 	@Override
 	public boolean isEnabled() {
 		return true;

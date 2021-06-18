@@ -14,7 +14,7 @@ public class Job1 implements Job {
 	Logger logger = LoggerFactory.getLogger(Job1.class);
 	
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("[ ÀÌ°ÍÀº Quartz ] ÇöÀç ½Ã°£ : {}", new Date());
+		logger.info("[ ì´ê²ƒì€ Quartz ] í˜„ì¬ ì‹œê°„ : {}", new Date());
 	}
 	
 }

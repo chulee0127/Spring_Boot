@@ -23,7 +23,7 @@ public class CrawlingService {
 			htmlArray[1] = document.text();
 			
 			Element loadingBar = document.select(".loadingSpinner").first();
-			System.out.println("·Îµù¹Ù HTML :: "+loadingBar.html());
+			System.out.println("ë¡œë”©ë°” HTML :: "+loadingBar.html());
 			
 		} catch (IOException e) {
 			e.printStackTrace();

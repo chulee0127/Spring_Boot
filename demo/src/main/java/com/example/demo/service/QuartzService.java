@@ -19,7 +19,7 @@ public class QuartzService {
 	private SchedulerFactory schedulerFactory;
 	
 	@PostConstruct
-	public void start() throws SchedulerException {
+	public void quartzStart() throws SchedulerException {
 
 		schedulerFactory = new StdSchedulerFactory();
 		QuartzConfig.quartzScheduler = schedulerFactory.getScheduler();
@@ -27,7 +27,7 @@ public class QuartzService {
 
 		JobDetail job1 = JobBuilder.newJob(Job1.class).build();
 
-		//QuartzConfig.quartzScheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
+		QuartzConfig.quartzScheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
 	}
 	
 }

@@ -20,7 +20,7 @@ public class BoardService {
 		
 //		for(int i=0; i<resultList.size(); i++) {
 //			HashMap<String, Object> getData = resultList.get(i);
-//			System.out.println("°Ô½ÃÆÇ ¸®½ºÆ® :: "+getData);
+//			System.out.println("ê²Œì‹œíŒ ëª©ë¡ :: "+getData);
 //		}
 		
 		return resultList;

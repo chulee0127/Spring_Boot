@@ -12,9 +12,9 @@ public class ScheduledService {
 	
 	Logger logger = LoggerFactory.getLogger(ScheduledService.class);
 
-	//@Scheduled(cron = "0/5 * * * * *")
+	@Scheduled(cron = "0/5 * * * * *")
 	public void scheduledFunction() {
-		logger.info("[ ÀÌ°ÍÀº Scheduled ] ÇöÀç ½Ã°£ : {}", new Date());
+		logger.info("[ ì´ê²ƒì€ Scheduled ] í˜„ì¬ì‹œê°„ : {}", new Date());
 	}
 	
 }
