@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.component.MailComponent;
 import com.example.demo.service.HomeService;
-import com.example.demo.service.MailComponent;
-
 import com.google.gson.JsonObject;
 
 @Controller
@@ -78,7 +77,7 @@ public class HomeController {
 
 		try {
 			
-			String toUser = null;
+			String toUser = "";
 			String mailTitle= "테스트 제목";
 			String htmlContent = "<h3 style=\"margin-bottom: 10px;\">제목</h3>";
 			htmlContent += "<p style=\"color: green; margin-bottom: 10px;\">내용</p>";

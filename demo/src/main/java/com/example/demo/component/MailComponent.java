@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.component;
 
 import java.io.File;
 

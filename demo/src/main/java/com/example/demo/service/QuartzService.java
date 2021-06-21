@@ -11,7 +11,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.config.QuartzConfig;
-import com.example.demo.jobs.Job1;
+import com.example.demo.quartz.QuartzJob1;
 
 @Service
 public class QuartzService {
@@ -25,7 +25,7 @@ public class QuartzService {
 		QuartzConfig.quartzScheduler = schedulerFactory.getScheduler();
 		QuartzConfig.quartzScheduler.start();
 
-		JobDetail job1 = JobBuilder.newJob(Job1.class).build();
+		JobDetail job1 = JobBuilder.newJob(QuartzJob1.class).build();
 
 		//QuartzConfig.quartzScheduler.scheduleJob(job1, QuartzConfig.oneSecTrigger);
 	}
