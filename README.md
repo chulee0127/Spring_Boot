@@ -6,5 +6,6 @@
 * Batch: Scheduled, Quartz
 * Crawling: Jsoup
 * JavaMailSender: Gmail
+* Socket: netty
 
 * add : tomcat 8.5 Session Clustering
