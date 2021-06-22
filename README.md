@@ -1,4 +1,4 @@
-# Spring_Boot
+# Spring Boot
 
 * Server: 외장 tomcat 8.5
 * View: Tymeleaf template
