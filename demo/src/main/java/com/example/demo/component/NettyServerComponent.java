@@ -1,7 +1,6 @@
 package com.example.demo.component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import com.example.demo.netty.NettyServer;
 public class NettyServerComponent {
 
 	// netty Server
-	//@PostConstruct
+	@PostConstruct
 	public void nettyServerStart() {
 
 		new Thread(new Runnable() {
@@ -25,11 +24,6 @@ public class NettyServerComponent {
 				}
 			}
 		}).start();
-	}
-
-	//@PreDestroy
-	private void destory() {
-		System.out.println("---------- [ PreDestroy annotation ] ----------");
 	}
 
 }
