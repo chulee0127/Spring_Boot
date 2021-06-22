@@ -17,17 +17,29 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		ByteBuf messageBuffer = Unpooled.buffer();
-		messageBuffer.writeBytes(msg.getBytes());
-
-		ctx.writeAndFlush(messageBuffer);
-
-		System.out.println("---------- send message [ " + msg + " ]");
+		
+		for(int i=0; i<5; i++) {
+			ByteBuf messageBuffer = Unpooled.buffer();
+			messageBuffer.writeBytes(msg.getBytes());
+			
+			System.out.println("---------- send message ::: " + msg);
+			//ctx.write(messageBuffer); // 채널에 데이터를 기록
+			ctx.writeAndFlush(messageBuffer);
+			
+			Thread.sleep(4000); // 4초 대기
+		}
+		//ctx.flush(); // 서버에 전송
+		
+		// 한 번에 보낼 때
+//		ByteBuf messageBuffer = Unpooled.buffer();
+//		messageBuffer.writeBytes(msg.getBytes());
+		
+//		ctx.writeAndFlush(messageBuffer);
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("receive message {" + ((ByteBuf) msg).toString(Charset.defaultCharset()) + "}");
+		System.out.println("---------- receive message ::: " + ((ByteBuf) msg).toString(Charset.defaultCharset()));
 	}
 
 	@Override

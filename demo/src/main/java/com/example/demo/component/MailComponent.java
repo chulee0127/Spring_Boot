@@ -93,7 +93,7 @@ public class MailComponent {
 				// 파일 첨부
 				FileSystemResource file1 = new FileSystemResource(new File(pathToAttachment));
 				message.addAttachment(file1.getFilename(), file1);
-				FileSystemResource file2 = new FileSystemResource(new File("C:/Users/A/Desktop/승인 화면 소스코드 분석 - 20210616.pptx"));
+				FileSystemResource file2 = new FileSystemResource(new File("C:/Users/A/Desktop/내 문서/공부/승인 화면 소스코드 분석 - 20210616.pptx"));
 				message.addAttachment(file2.getFilename(), file2);
 			}
 		};

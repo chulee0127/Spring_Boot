@@ -33,13 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/login", "/loginFail", "/crawling.do", "/sendEmail.do").permitAll() // 누구나 접근 허용
+				.antMatchers("/", "/login.do", "/loginFail", "/crawling.do", "/sendEmail.do", "/nettySocket.do").permitAll() // 누구나 접근 허용
 				// 권한이 "ROLE_"로 시작되지 않기 때문에 hasRole()이 적용되지 않습니다. 권한이있는 경우 (예: "ROLE_USER") hasRole("USER")는 hasAuthority("ROLE_USER")와 동일
 				.antMatchers("/board/**").hasAnyRole("test1", "else") // .hasRole("test1") .hasAuthority("ROLE_test1")
 				.anyRequest().authenticated() // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근 가능
 				.and()
 				.formLogin()
-				.loginPage("/login") // 로그인 페이지 링크
+				.loginPage("/login.do") // 로그인 기본 page
 				.usernameParameter("user_id") // 기본은 username
 				.passwordParameter("user_password") // 기본은 password
 				.successHandler(authHandler)

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.component.MailComponent;
+import com.example.demo.component.NettyClientComponent;
 import com.example.demo.service.HomeService;
 import com.google.gson.JsonObject;
 
@@ -27,6 +28,9 @@ public class HomeController {
 	
 	@Autowired
 	MailComponent mailComponent;
+	
+	@Autowired
+	NettyClientComponent nettyClientComponent;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView indexPage(Authentication authentication, HttpSession session) {
@@ -54,7 +58,7 @@ public class HomeController {
 	}
 	
 	// 로그인 페이지
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
@@ -92,6 +96,30 @@ public class HomeController {
 			ex.printStackTrace();
 		} finally {
 			mav.addObject("resultBoolean", resultBoolean);
+		}
+
+		return mav;
+	}
+	
+	// netty Socket 통신
+	@RequestMapping(value = "/nettySocket.do", method = RequestMethod.POST)
+	public ModelAndView nettySocket(@RequestBody HashMap<String, Object> params) {
+
+		System.out.println("[ /nettySocket.do ] params :: " + params);
+
+		ModelAndView mav = new ModelAndView("jsonView");
+
+		int resultCode = 0;
+
+		try {
+			
+			nettyClientComponent.nettyClientStart();
+			
+		} catch (Exception ex) {
+			resultCode = 99;
+			ex.printStackTrace();
+		} finally {
+			mav.addObject("resultCode", resultCode);
 		}
 
 		return mav;

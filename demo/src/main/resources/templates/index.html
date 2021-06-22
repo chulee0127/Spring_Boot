@@ -143,18 +143,47 @@
 			});
 		}
 		/* 이메일 전송 끝 */
+		/* netty Socket 통신 */
+		function nettyFunc(){
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let token = $("meta[name='_csrf']").attr("content");
+			
+			$.ajax({
+				cache : false,
+				type : "POST",
+				url : "/nettySocket.do",
+				data : JSON.stringify({flag: "netty"}),
+				dataType : "JSON",
+				contentType : "application/json; charset=utf-8",
+				beforeSend : function(xhr) { // 데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					alert(result.resultCode);
+				},
+				error : function() {
+					alert("서버통신 에러");
+				}
+			});
+		}
+		/* netty Socket 통신 끝 */
 	</script>
 </head>
 
 <div layout:fragment="content">
 	<div class="container mt-2 mb-2" style="border: 1px solid red;">
-		<!-- <p id="hmm" th:text="${resultCode}"></p> -->
-		<div th:if="${session.user_id eq null}" style="text-align: right;" class="mt-3"><span>비회원</span>&nbsp;님</div>
-		<div th:if="${session.user_id ne null}" style="text-align: right;" class="mt-3"><span th:text="${session.user_id}"></span>&nbsp;님</div>
-		<div>ID : <span sec:authentication="name"></span></div>
-    	<div>소유 권한 : <span sec:authentication="authorities"></span></div>
-    	
-		<div style="text-align: -webkit-center;">
+		<div class="col-12 row mb-5">
+			<div class="col-6">
+				<!-- <p id="hmm" th:text="${resultCode}"></p> -->
+				<div class="col-12">authentication[name] : <span sec:authentication="name"></span></div>
+		    	<div class="col-12">authentication[authorities] : <span sec:authentication="authorities"></span></div>
+	    	</div>
+			<div class="col-6">
+				<div th:if="${session.user_id eq null}" style="text-align: right;" class="col-12 mt-3"><span>비회원</span>&nbsp;님</div>
+				<div th:if="${session.user_id ne null}" style="text-align: right;" class="col-12 mt-3"><span th:text="${session.user_id}"></span>&nbsp;님</div>
+			</div>
+		</div>
+		<div class="col-12 mb-5" style="text-align: -webkit-center;">
 			<table class="table table-striped col-4" style="text-align: center; white-space: nowrap;">
 				<thead class="thead-dark">
 					<tr>
@@ -172,13 +201,12 @@
 			    </tbody>
 			</table>
 		</div>
-		<div class="row">
+		<div class="col-12 row mb-3">
 			<!-- Spring Security 미사용시 로그인 -->
 <!-- 			<div th:if="${session.userMap eq null}"><button id="loginBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그인</button></div>
 			<div th:if="${session.userMap ne null}"><button id="logoutBtn" class="btn btn-sm btn-warning ml-3 mr-3 mb-3">로그아웃</button></div> -->
-			<a href="board/list"><button class="btn btn-sm btn-info mb-3 ml-3 mr-3">게시판</button></a>
 			<!-- <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a> -->
-			<a sec:authorize="isAnonymous()" th:href="@{/login}" class="mr-3">로그인</a><!-- 익명 -->
+			<a sec:authorize="isAnonymous()" th:href="@{/login.do}" class="mr-3">로그인</a><!-- 익명 -->
 		    <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="mr-3">로그아웃</a><!-- 인증된 사용자 -->
 		    <p sec:authorize="hasAuthority('ROLE_test1')" class="mr-3">hasAuthority('ROLE_test1')</p>
 		    <p sec:authorize="hasAuthority('ROLE_else')" class="mr-3">hasAuthority('ROLE_else')</p>
@@ -186,10 +214,16 @@
 		    <p sec:authorize="hasRole('ROLE_else')" class="mr-3">hasRole('ROLE_else')</p>
 		</div>
 		<div class="mb-3">
-			<button class="btn btn-md btn-outline-secondary" onclick="crawling();">Crawling ㄱㄱ</button>
-		</div >
+			<a href="board/list"><button class="btn btn-sm btn-outline-primary">게시판</button></a>
+		</div>
 		<div class="mb-3">
-			<button class="btn btn-md btn-outline-warning" onclick="sendEmail();">이메일 전송</button>
+			<button class="btn btn-md btn-outline-secondary" onclick="crawling();">Crawling ㄱㄱ</button>
+		</div>
+		<div class="mb-3">
+			<button class="btn btn-md btn-outline-danger" onclick="sendEmail();">이메일 전송</button>
+		</div>
+		<div class="mb-3">
+			<button class="btn btn-md btn-outline-info" onclick="nettyFunc();">netty 소켓 통신</button>
 		</div>
 	</div>
 	
