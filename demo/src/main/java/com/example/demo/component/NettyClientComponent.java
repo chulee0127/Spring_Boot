@@ -10,7 +10,7 @@ public class NettyClientComponent {
 	// netty Client
 	public void nettyClientStart() {
 		
-		NettyClient nettyClientObj = new NettyClient("localhost", 8999, "7");
+		NettyClient nettyClientObj = new NettyClient("localhost", 8999, "123456");
 		
 		nettyClientObj.nettyClientRun();
 	}
