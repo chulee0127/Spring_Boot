@@ -1,9 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
-	<meta charset="UTF-8"/>
+	<meta charset="UTF-8" />
 </head>
+
 <header th:fragment="headerFragment">
-	<div class="container-fluid" style="border: 3px solid lightskyblue;">header</div>
+	<div class="container-fluid" style="border: 3px solid lavender; height: 7vh;">
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-6">
+				<a href="/"><button class="btn btn-md btn-outline-dark mb-3">logo & 메인</button></a>
+			</div>
+			<div class="col-6">
+				<div class="row">
+					<div th:if="${session.user_id eq null}" class="col-4" style="text-align: end;">
+						<p>비회원&nbsp;님</p>
+					</div>
+					<div th:if="${session.user_id ne null}" class="col-4" style="text-align: end;">
+						<p><span th:text="${session.user_id}"></span>&nbsp;님</p>
+					</div>
+					<div class="col-4">
+						<a sec:authorize="isAnonymous()" th:href="@{/login.do}"><button class="btn btn-md btn-outline-dark">로그인</button></a><!-- 익명 -->
+						<a sec:authorize="isAuthenticated()" th:href="@{/logout}"><button class="btn btn-md btn-outline-dark">로그아웃</button></a><!-- 인증된 사용자 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </header>
 </html>

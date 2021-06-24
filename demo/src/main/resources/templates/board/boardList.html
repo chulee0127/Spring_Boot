@@ -17,8 +17,7 @@
 			
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let token = $("meta[name='_csrf']").attr("content");
-			
-			console.log(header+" :: "+token);
+			/* console.log(header+" :: "+token); */
 			
 			$.ajax({
 				cache : false,
@@ -62,14 +61,14 @@
 	</script>
 </head>
 
-<div layout:fragment="content">
-	<div class="container">
-		<h1>게시판</h1>
-		<div th:if="${session.user_id eq null}" style="text-align: right;"><span>비회원</span>&nbsp;님</div>
-		<div th:if="${session.user_id ne null}" style="text-align: right;"><span th:text="${session.user_id}"></span>&nbsp;님</div>
+<div layout:fragment="content" class="col-8 offset-md-1" style="border: 1px solid red;">
+	<div class="col-12">
+		<div class="mt-3 mb-3">
+			<h1 style="text-align: center;">게시판</h1>
+		</div>
 		
 		<div style="text-align: -webkit-center;">
-			<table class="table table-striped col-8" style="text-align: center; white-space: nowrap;">
+			<table class="table table-striped col-8" style="text-align: center; white-space: nowrap; overflow-x: auto;">
 				<thead class="thead-dark">
 					<tr>
 						<th>No</th>
@@ -85,8 +84,6 @@
 				</tbody>
 			</table>
 		</div>
-		<a href="/"><button class="btn btn-md btn-info mb-3">메인</button></a>
-		<a href="/logout"><button class="btn btn-md btn-warning mb-3">로그아웃</button></a>
 	</div>
 </div>
 </html>

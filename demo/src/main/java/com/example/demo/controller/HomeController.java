@@ -87,9 +87,9 @@ public class HomeController {
 			htmlContent += "<p style=\"color: green; margin-bottom: 10px;\">내용</p>";
 			htmlContent += "<img src=\"cid:image1\" width=\"100px\" height=\"100px\">";
 			
-			mailComponent.sendSimpleMessage(toUser, mailTitle, htmlContent);
+//			mailComponent.sendSimpleMessage(toUser, mailTitle, htmlContent);
 //			mailComponent.sendMessageWithAttachment(toUser, mailTitle, htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
-//			mailComponent.sendEmailToHtmlForm(toUser, mailTitle, htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
+			mailComponent.sendEmailToHtmlForm(toUser, mailTitle, htmlContent, "C:/Users/A/Desktop/Tool/google_otp_capture.jpeg");
 			resultBoolean = true;
 			
 		} catch (Exception ex) {

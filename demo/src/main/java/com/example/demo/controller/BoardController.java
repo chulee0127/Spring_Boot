@@ -26,7 +26,7 @@ public class BoardController {
 	
 	@GetMapping(value = "/list")
 	public String boardList() {
-		return "board/boardList";
+		return "/board/boardList";
 	}
 	
 	@PostMapping(value="/list/get")

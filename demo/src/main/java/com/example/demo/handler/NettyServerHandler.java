@@ -13,16 +13,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 @Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
-	private int DATA_LENGTH = 5; // TestDecoder 와 동일
-	private ByteBuf buff;
+//	private int DATA_LENGTH = 5; // TestDecoder 와 동일
+//	private ByteBuf buff;
 
 	// 핸들러가 생성될 때 호출되는 메소드
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx) {
 
-		System.out.println("---------- netty Handler가 생성됩니다. ---------- "+ctx.alloc().buffer(DATA_LENGTH));
+		System.out.println("---------- netty Handler가 생성됩니다. ---------- ");
 
-		buff = ctx.alloc().buffer(DATA_LENGTH); // ByteBuf 동적 할당
+//		buff = ctx.alloc().buffer(DATA_LENGTH); // ByteBuf 동적 할당
 	}
 	
 	// 핸들러가 제거될 때 호출되는 메소드
@@ -31,7 +31,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     	
     	System.out.println("---------- netty Handler가 제거됩니다. ----------");
     	
-        buff = null;
+//        buff = null;
     }
 
 	// 클라이언트와 연결되어 트래픽을 생성할 준비가 되었을 때 호출되는 메소드
@@ -44,7 +44,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 	// 현재 바이트 크기만큼 데이터를 수신해야 실행되게끔 설정
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
-
+		/*
 		ByteBuf mBuf = (ByteBuf) msg;
 		// String readMessage = ((ByteBuf) msg).toString(Charset.forName("euc-kr"));
 		String readMessage = mBuf.toString(Charset.forName("euc-kr"));
@@ -74,6 +74,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             }
         });
 		//f.addListener(ChannelFutureListener.CLOSE);
+		*/
+		ByteBuf mBuf = (ByteBuf) msg;
+		String readMessage = mBuf.toString(Charset.forName("euc-kr"));
+		System.out.println("---------- message from received ::: " + readMessage);
+		readMessage += "abcd";
+		
+		ByteBuf messageBuffer = Unpooled.buffer(); 
+		messageBuffer.writeBytes(readMessage.getBytes());
+		ctx.writeAndFlush(messageBuffer);
+//		ctx.write(messageBuffer); // flush를 안하면 응답을 보내지않고, 연결상태가 계속 유지
 	}
 	
 	// 데이터를 수신할 때마다 실행하는 함수

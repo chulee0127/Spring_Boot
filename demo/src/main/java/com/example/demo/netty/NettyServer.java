@@ -8,6 +8,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -40,7 +41,9 @@ public class NettyServer {
 					
 					@Override
 					public void initChannel(SocketChannel ch) throws Exception {
-
+						
+						ch.config().setRecvByteBufAllocator(new FixedRecvByteBufAllocator(4096)); //set  buf size here
+						
 						ChannelPipeline pipeline = ch.pipeline();
 
 						// decoder는 @Sharable이 안됨. Bean 객체 주입이 안되고, 매번 새로운 객체를 생성해야 함
@@ -58,12 +61,12 @@ public class NettyServer {
 
 		try {
 			// 지정한 host, port로 소켓을 바인딩하고 incoming connections을 받도록 준비함
-			ChannelFuture serverChannelFuture = b.bind(port).sync(); // ChannelFuture: I/O operation의 결과나 상태를 제공하는 객체
+			//ChannelFuture serverChannelFuture = b.bind(port).sync(); // ChannelFuture: I/O operation의 결과나 상태를 제공하는 객체
 
 			// 서버 소켓이 닫힐 때까지 기다림
 			//serverChannelFuture.channel().closeFuture().sync();
-			//serverChannel = serverChannelFuture.channel().closeFuture().sync().channel();
-			serverChannelFuture.channel().closeFuture().sync().channel();
+			//serverChannel = serverChannelFuture.channel().closeFuture().sync();
+			b.bind(port).sync().channel().closeFuture().sync();
 			
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();

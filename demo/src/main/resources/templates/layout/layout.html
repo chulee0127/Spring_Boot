@@ -12,9 +12,17 @@
 	<script src="/js/bootstrap.min.js"></script>
 </head>
 
-<header th:replace="fragments/header :: headerFragment"></header>
-
-<div layout:fragment="content"></div>
-
-<footer th:replace="fragments/footer :: footerFragment"></footer>
+<body>
+	<header th:replace="fragments/header :: headerFragment"></header>
+	
+	<div class="container-fluid mt-3 mb-3">
+		<div class="row">
+			<div th:replace="fragments/leftNavi :: leftNaviFragment"></div>
+			
+			<div layout:fragment="content"></div>
+		</div>
+	</div>
+	
+	<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
 </html>
